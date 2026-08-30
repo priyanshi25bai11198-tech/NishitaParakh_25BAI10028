@@ -1,7 +1,8 @@
-#------------------
-#DOCUMENT INGESTION
-#------------------
 from pypdf import PdfReader
+from sentence_transformers import SentenceTransformer
+#------------------
+#1. DOCUMENT INGESTION
+#------------------
 reader = PdfReader("document.pdf")
 text = ""
 for page in reader.pages:
@@ -10,10 +11,8 @@ for page in reader.pages:
     if page_text:
         text += page_text + "\n"
 
-print(text)
-
 #------------------
-#CHUNKING
+#2. CHUNKING
 #------------------
 chunk_size = 500
 overlap = 50
@@ -25,10 +24,10 @@ while st < len(text):
     chunks.append(chunk)
     st = end - overlap
 
-print("Number of Chunks: ", len(chunks))
-print("first chunk: ", chunks[0])
-
-
 #------------------
-#CHUNKING
+#3. EMBEDDING
 #------------------
+embedding_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+embeddings = embedding_model.encode(chunks)
+print("No. of embeddings: ", len(embeddings))
+print("Embedding size: ", len(embeddings[0]))
