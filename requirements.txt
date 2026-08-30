@@ -1,6 +1,6 @@
+faiss-cpu
+numpy
 pypdf
 sentence-transformers
-faiss-cpu
-groq
 python-dotenv
-numpy
+groq
