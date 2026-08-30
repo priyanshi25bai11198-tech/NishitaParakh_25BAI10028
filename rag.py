@@ -1,3 +1,5 @@
+import faiss
+import numpy as np
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 #------------------
@@ -31,3 +33,11 @@ embedding_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 embeddings = embedding_model.encode(chunks)
 print("No. of embeddings: ", len(embeddings))
 print("Embedding size: ", len(embeddings[0]))
+
+#------------------
+#4. Vector Store(FAISS)
+#------------------
+embeddings = np.array(embeddings).astype("float32")
+index = faiss.IndexFlatL2(embeddings.shape[1])
+index.add(embeddings)
+print("No. of vectors in FAISS: ", index.ntotal)
